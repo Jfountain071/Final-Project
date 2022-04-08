@@ -4,3 +4,9 @@ Students participating include:
 Andrew Finch
 Jeremy Fountain
 Lee Wycoff
+
+Components of the project:
+tkinter
+timer system for when the sensor is activated
+connecting to hardware and sensors
+intaking information from APIs?
