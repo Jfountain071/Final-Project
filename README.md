@@ -12,3 +12,4 @@ connecting to hardware and sensors
 intaking information from APIs?
 display time of day
 touchscreen ability
+track toothpaste amount remaining
