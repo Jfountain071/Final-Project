@@ -1,6 +1,6 @@
 
-from dataclasses import dataclass
-from os import system
+from cProfile import label
+from itertools import count
 from tkinter import *
 import time
 from random_word import RandomWords
@@ -15,20 +15,29 @@ r = RandomWords()
 dayWord = r.word_of_the_day()
 
 def update_clock():
-    timer_label.config(text = time.strftime("%I:%M:%S", time.localtime()))
+    current_time_label.config(text = "Current Time: " + time.strftime("%I:%M:%S", time.localtime()))
     window.after(1000, update_clock)
+
+def countdown(count=120):
+    mins, secs = divmod(count, 60)
+    time_format = "{:02d}:{:02d}".format(mins, secs)         
+    text=f"Timer: {time_format}"
+    timer_label.config(text=text)
+
+    if count > 0:
+        window.after(1000, countdown, count-1)
 
 img = PhotoImage(file = "COES.gif")
 
 
 GUI_data = [
-{"row": 0, "col": 0, "colspan": 3, "value": f"Word of the Day: {dayWord['word']}"},
-{"row": 0, "col": 3, "colspan": 3, "value": ""},
-{"row": 1, "col": 0, "colspan": 3, "value": f"Definition: {dayWord['partOfSpeech']}, {dayWord['definitions']}"},
+{"row": 0, "col": 0, "colspan": 6, "value": f"Word of the Day: {dayWord['word']}"},
+{"row": 1, "col": 0, "colspan": 6, "value": f"Definition: {dayWord['partOfSpeech']}, {dayWord['definitions']}"},
 ]
 
 GUI_data2 = [
-    {"row": 2, "col": 0, "rowspan": 3, "colspan": 3, "value": PhotoImage(file="COES.gif")},
+    {"row": 2, "col": 1, "rowspan": 7, "colspan": 6, "value": PhotoImage(file="COES.gif")},
+    {"row": 2, "col": 0, "rowspan": 7, "colspan": 1, "value": None}
 ]
 
 USING_RPI = False
@@ -43,19 +52,19 @@ class MainGUI(Frame):
 
     def make_GUI_item(self, row, col, colspan, value):
 
-        GUI_item = Label(self, text=value, anchor=CENTER, bg="white", fg="black", height=1, font=("Times New Roman", 15))
+        GUI_item = Label(self, text=value, anchor=W, bg="#5865F2", fg="white", height=1, font=("Times New Roman", 15))
 
         GUI_item.grid(row=row, column=col, columnspan=colspan, sticky=NSEW)
 
     def make_GUI_item2(self, row, rowspan, col, colspan, value):
 
-        GUI_item2 = Label(self, image=value, anchor=CENTER, bg="white", fg="black", height=2)
+        GUI_item2 = Label(self, image=value, anchor=W, bg="#5865F2", fg="white", height=1)
 
         GUI_item2.grid(row=row, rowspan=rowspan, column=col, columnspan=colspan, sticky=NSEW)
 
     def setupGUI(self):
 
-        for row in range(5):
+        for row in range(9):
             Grid.rowconfigure(self, row, weight = 1)
         
         for col in range(6):
@@ -67,11 +76,14 @@ class MainGUI(Frame):
         for GUI_item2 in GUI_data2:
             self.make_GUI_item2(GUI_item2["row"], GUI_item2["rowspan"], GUI_item2["col"], GUI_item2["colspan"], GUI_item2["value"])
 
-        self.pack(fill = BOTH, expand = 1)
+        self.pack(fill=BOTH, expand=1)
 
+timer_label = Label(window, text = '', anchor=SE, bg ="#5865F2", fg="white", height=1, font=("Times New Roman", 20))
+timer_label.pack(fill=BOTH, expand=0)
 gui = MainGUI(window)
 window.title("Terrific Toothpaste Prototype")
-timer_label = Label(window, text = '', anchor=SE, bg="white", fg="black", height = 1, font=("Times New Roman", 20))
-timer_label.pack(fill=BOTH, expand=1)
+current_time_label = Label(window, text = '', anchor=SE, bg ="#5865F2", fg="white", height=1, font=("Times New Roman", 20))
+current_time_label.pack(fill=BOTH, expand=0)
 window.after(0, update_clock)
+window.after(0, countdown)
 window.mainloop()
