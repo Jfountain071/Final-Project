@@ -19,7 +19,7 @@ void setup() {
   pinMode(enA, OUTPUT);
   pinMode(in1, OUTPUT);
   pinMode(in2, OUTPUT);
-  pinMode(4, INPUT);
+  pinMode(13, INPUT);
 
   
 
@@ -30,7 +30,7 @@ void setup() {
 void loop() {
   Dabble.processInput();             //this function is used to refresh data obtained from the smartphone
   analogWrite(enA, 255);
-  int switch1 = digitalRead(4);
+  int switch1 = digitalRead(13);
   if (GamePad.isUpPressed())
   {
     Serial.println("Actuated");
