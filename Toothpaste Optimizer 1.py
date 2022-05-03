@@ -1,4 +1,5 @@
-
+import serial
+import string
 from cProfile import label
 from itertools import count
 from tkinter import *
@@ -10,6 +11,7 @@ window = Tk()
 WIDTH = 800
 HEIGHT = 480
 window.geometry(f"{WIDTH}x{HEIGHT}")
+ser=serial.Serial('/dev/ttyACM0', 250000)	# Reads the serial port on the raspi, and reads at a 250000 bit rate
 
 r = RandomWords()
 dayWord = r.word_of_the_day()
@@ -86,4 +88,5 @@ current_time_label = Label(window, text = '', anchor=SE, bg ="#5865F2", fg="whit
 current_time_label.pack(fill=BOTH, expand=0)
 window.after(0, update_clock)
 window.after(0, countdown)
+
 window.mainloop()
