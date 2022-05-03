@@ -1,4 +1,9 @@
-import serial
+####################################################################
+# Project Name: Clean Caddy
+# Staff: Lee Wycoff, Jeremy Fountain
+####################################################################
+
+import serial       # Importing the serial port for the Arduino communication
 import string
 from cProfile import label
 from itertools import count
@@ -86,8 +91,8 @@ window.title("Terrific Toothpaste Prototype")
 current_time_label = Label(window, text = '', anchor=SE, bg ="#5865F2", fg="white", height=1, font=("Times New Roman", 20))
 current_time_label.pack(fill=BOTH, expand=0)
 window.after(0, update_clock)
-window.after(0, countdown)
+window.mainloop()
 ser=serial.Serial('/dev/ttyACM0', 250000)	# Reads the serial port on the raspi, and reads at a 250000 bit rate
 while True:
-	serialdata=ser.readline()			# Reads the current line of the Arduino's serial monitor
-window.mainloop()
+    serialdata=ser.readline()			# Reads the current line of the Arduino's serial monitor
+    window.after(0, countdown)
