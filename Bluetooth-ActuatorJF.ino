@@ -8,7 +8,7 @@
 */
 #define CUSTOM_SETTINGS
 #define INCLUDE_GAMEPAD_MODULE
-#include <Dabble.h>
+#include <Dabble.h>           // Dabble library (the bluetooth module)
 int enA = 9;
 int in1 = 8;
 int in2 = 7;
@@ -28,7 +28,7 @@ void setup() {
 }
 
 void loop() {
-  Dabble.processInput();             //this function is used to refresh data obtained from smartphone.Hence calling this function is mandatory in order to get data properly from your mobile.
+  Dabble.processInput();             //this function is used to refresh data obtained from the smartphone
   analogWrite(enA, 255);
   int switch1 = digitalRead(4);
   if (GamePad.isUpPressed())
@@ -49,7 +49,7 @@ void loop() {
   
   else
   {
-    digitalWrite(in1, LOW);
+    digitalWrite(in1, LOW);   // Defualt status is no movement
     digitalWrite(in2, LOW);
   }
 }
