@@ -20,6 +20,7 @@ void setup() {
   pinMode(in1, OUTPUT);
   pinMode(in2, OUTPUT);
   pinMode(13, INPUT);
+  pinMode(5, OUTPUT);
 
   
 
@@ -34,6 +35,7 @@ void loop() {
   if (GamePad.isUpPressed())
   {
     Serial.println("Actuated");
+    digitalWrite(5, HIGH);
     digitalWrite(in1, LOW);
     digitalWrite(in2, HIGH);
     delay(1000);
@@ -52,6 +54,7 @@ void loop() {
 
   if (switch1 == 1)
   {
+    digitalWrite(5, HIGH);
     Serial.println("Actuated");
     digitalWrite(in1, LOW);
     digitalWrite(in2, HIGH);
