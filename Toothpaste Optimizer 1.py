@@ -37,8 +37,8 @@ img = PhotoImage(file = "COES.gif")
 
 
 GUI_data = [
-{"row": 0, "col": 0, "colspan": 6, "value": f"Word of the Day: {dayWord['word']}"},
-{"row": 1, "col": 0, "colspan": 6, "value": f"Definition: {dayWord['partOfSpeech']}, {dayWord['definitions']}"},
+{"row": 0, "rowspan": 1, "col": 0, "colspan": 6, "value": f"Word of the Day: {dayWord['word']}"},
+{"row": 1, "rowspan": 2, "col": 0, "colspan": 6, "value": f"Definition: {dayWord['partOfSpeech']}, {dayWord['definitions']}"},
 ]
 
 GUI_data2 = [
@@ -56,11 +56,11 @@ class MainGUI(Frame):
             master.attributes("-fullscreen", True)
         self.setupGUI()
 
-    def make_GUI_item(self, row, col, colspan, value):
+    def make_GUI_item(self, row, rowspan, col, colspan, value):
 
         GUI_item = Label(self, text=value, anchor=W, bg="#5865F2", fg="white", height=1, font=("Times New Roman", 15))
 
-        GUI_item.grid(row=row, column=col, columnspan=colspan, sticky=NSEW)
+        GUI_item.grid(row=row, rowspawn=rowspan, column=col, columnspan=colspan, sticky=NSEW)
 
     def make_GUI_item2(self, row, rowspan, col, colspan, value):
 
@@ -77,7 +77,7 @@ class MainGUI(Frame):
             Grid.columnconfigure(self, col, weight = 1)
 
         for GUI_item in GUI_data:
-            self.make_GUI_item(GUI_item["row"], GUI_item["col"], GUI_item["colspan"], GUI_item["value"])
+            self.make_GUI_item(GUI_item["row"], GUI_item2["rowspan"], GUI_item["col"], GUI_item["colspan"], GUI_item["value"])
         
         for GUI_item2 in GUI_data2:
             self.make_GUI_item2(GUI_item2["row"], GUI_item2["rowspan"], GUI_item2["col"], GUI_item2["colspan"], GUI_item2["value"])
@@ -87,7 +87,7 @@ class MainGUI(Frame):
 timer_label = Label(window, text = '', anchor=SE, bg ="#5865F2", fg="white", height=1, font=("Times New Roman", 20))
 timer_label.pack(fill=BOTH, expand=0)
 gui = MainGUI(window)
-window.title("Terrific Toothpaste Prototype")
+window.title("The Clean Caddy")
 current_time_label = Label(window, text = '', anchor=SE, bg ="#5865F2", fg="white", height=1, font=("Times New Roman", 20))
 current_time_label.pack(fill=BOTH, expand=0)
 window.after(0, update_clock)
