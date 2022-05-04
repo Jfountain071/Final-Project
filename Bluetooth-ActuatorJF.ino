@@ -37,6 +37,17 @@ void loop() {
     digitalWrite(in1, LOW);
     digitalWrite(in2, HIGH);
     delay(1000);
+    digitalWrite(in1, HIGH);
+    digitalWrite(in2, LOW);
+    delay(500);
+  }
+
+  if (GamePad.isDownPressed())
+  {
+    Serial.println("Actuated");
+    digitalWrite(in1, HIGH);
+    digitalWrite(in2, LOW);
+    delay(10000);
   }
 
   if (switch1 == 1)
@@ -45,11 +56,15 @@ void loop() {
     digitalWrite(in1, LOW);
     digitalWrite(in2, HIGH);
     delay(1000);
+    digitalWrite(in1, HIGH);
+    digitalWrite(in2, LOW);
+    delay(500);
   }
   
   else
   {
     digitalWrite(in1, LOW);   // Defualt status is no movement
     digitalWrite(in2, LOW);
+
   }
 }
