@@ -190,7 +190,7 @@ class RandomWords(object):
         if response.status_code == 200:
             word = result["word"]
             definitions = result["definitions"]
-            dictionary = {
+            dictionary = {                      # changed the API to return the values in a single dictionary
                 "word": word,
                 "definitions": definitions[0]['text'],
                 "partOfSpeech": definitions[0]['partOfSpeech'],
