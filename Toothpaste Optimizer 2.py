@@ -22,9 +22,9 @@ def setupGPIO():
     GPIO.setup(5, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
     GPIO.add_event_detect(5, GPIO.RISING, callback=countdown)  # the event detection allows for the pin 5 to be called to the top priority when it goes high
 
-def update_clock():
+def update_clock():                 # when the function update_clock is called, it continuously updates the system time
     current_time_label.config(text = "Current Time: " + time.strftime("%I:%M:%S", time.localtime()))
-    window.after(1000, update_clock) # when the function update_clock is called, it continuously updates the system time
+    window.after(1000, update_clock) 
     
 
 def countdown_initialize(count=120):            # the first countdown statement to run
@@ -33,7 +33,7 @@ def countdown_initialize(count=120):            # the first countdown statement 
     text=f"Timer: {time_format}"
     timer_label.config(text=text)
 
-def countdown(_=None):              # denys input from the GPIO event detection call
+def countdown(_=None):              # denies input from the GPIO event detection call
     count=120
     while (count > 0):          # begins the timer ticking
         time.sleep(1)
