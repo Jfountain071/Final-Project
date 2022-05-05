@@ -1,13 +1,13 @@
 ####################################################################
 # Project Name: Clean Caddy
-# Staff: Lee Wycoff, Jeremy Fountain
+# Staff: Lee Wycoff, Jeremy Fountain, Andrew Finch
 ####################################################################
 from cProfile import label
 from itertools import count
 from tkinter import *
 import time
 from random_word import RandomWords
-import RPi.GPIO as GPIO
+import RPi.GPIO as GPIO             # enables the usage of the Pi's GPIO ports
 
 window = Tk()
 
@@ -22,33 +22,31 @@ def setupGPIO():
     GPIO.setmode(GPIO.BCM)
     GPIO.setwarnings(False)
     GPIO.setup(5, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
-    GPIO.add_event_detect(5, GPIO.RISING, callback=countdown)
+    GPIO.add_event_detect(5, GPIO.RISING, callback=countdown)  # the event detection allows for the pin 5 to be called to the top priority when it goes high
 
 def update_clock():
     current_time_label.config(text = "Current Time: " + time.strftime("%I:%M:%S", time.localtime()))
     window.after(1000, update_clock)
     
 
-def countdown_initialize(count=120):
+def countdown_initialize(count=120):            # the first countdown statement to run
     mins, secs = divmod(count, 60)
-    time_format = "{:02d}:{:02d}".format(mins, secs)         
+    time_format = "{:02d}:{:02d}".format(mins, secs)      # the timer in min,sec will display 2:00 on startup  
     text=f"Timer: {time_format}"
     timer_label.config(text=text)
-    print("count me daddy")
 
-def countdown(_=None):
-    print("RUNNINGIANGINSIGN")
+def countdown(_=None):              # denys input from the GPIO event detection call
     count=120
-    while (count > 0):
+    while (count > 0):          # begins the timer ticking
         time.sleep(1)
         mins, secs = divmod(count, 60)
         time_format = "{:02d}:{:02d}".format(mins, secs)         
         text=f"Timer: {time_format}"
         timer_label.config(text=text)
         count -= 1
-    if count == 0:
+    if count == 0:      # when the timer is at 0, it will reset to 2 minutes and not loop
         count = 120
-    countdown_initialize(count)
+    countdown_initialize(count)     # feeds the current count (ticking time) into the prior countdown function to be displayed
 0
 img = PhotoImage(file = "COES.gif")
 
@@ -104,11 +102,10 @@ class MainGUI(Frame):
 timer_label = Label(window, text = '', anchor=SE, bg ="#5865F2", fg="white", height=1, font=("Times New Roman", 20))
 timer_label.pack(fill=BOTH, expand=0)
 gui = MainGUI(window)
-window.title("The Clean Caddy")
+window.title("The Clean Caddy")     # title of the device
 current_time_label = Label(window, text = '', anchor=SE, bg ="#5865F2", fg="white", height=1, font=("Times New Roman", 20))
 current_time_label.pack(fill=BOTH, expand=0)
-
-window.after(0, setupGPIO)
+window.after(0, setupGPIO)      # the following calls the three functions, with a wait time of 0
 window.after(0, update_clock)
 window.after(0, countdown_initialize)
 window.mainloop()
