@@ -20,8 +20,7 @@ void setup() {
   pinMode(in1, OUTPUT);
   pinMode(in2, OUTPUT);
   pinMode(13, INPUT);
-
-  
+  pinMode(4, OUTPUT);
 
   digitalWrite(in1, LOW);
   digitalWrite(in2, LOW);
@@ -34,22 +33,39 @@ void loop() {
   if (GamePad.isUpPressed())
   {
     Serial.println("Actuated");
+    digitalWrite(4, HIGH);
     digitalWrite(in1, LOW);
     digitalWrite(in2, HIGH);
-    delay(1000);
+    delay(1500);
+    digitalWrite(in1, HIGH);
+    digitalWrite(in2, LOW);
+    delay(500);
+  }
+
+  if (GamePad.isDownPressed())
+  {
+    Serial.println("Actuated");
+    digitalWrite(in1, HIGH);
+    digitalWrite(in2, LOW);
+    delay(10000);
   }
 
   if (switch1 == 1)
   {
+    digitalWrite(4, HIGH);
     Serial.println("Actuated");
     digitalWrite(in1, LOW);
     digitalWrite(in2, HIGH);
-    delay(1000);
+    delay(1500);
+    digitalWrite(in1, HIGH);
+    digitalWrite(in2, LOW);
+    delay(500);
   }
   
   else
   {
     digitalWrite(in1, LOW);   // Defualt status is no movement
     digitalWrite(in2, LOW);
+
   }
 }

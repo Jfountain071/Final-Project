@@ -2,7 +2,6 @@
 # Project Name: Clean Caddy
 # Staff: Lee Wycoff, Jeremy Fountain
 ####################################################################
-
 import serial       # Importing the serial port for the Arduino communication
 import string
 from cProfile import label
@@ -10,6 +9,7 @@ from itertools import count
 from tkinter import *
 import time
 from random_word import RandomWords
+import RPi.GPIO as GPIO
 
 window = Tk()
 
@@ -20,25 +20,44 @@ window.geometry(f"{WIDTH}x{HEIGHT}")
 r = RandomWords()
 dayWord = r.word_of_the_day()
 
+def setupGPIO():
+    GPIO.setmode(GPIO.BCM)
+    GPIO.setwarnings(False)
+    GPIO.setup(5, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+    GPIO.add_event_detect(5, GPIO.RISING, callback=countdown)
+
 def update_clock():
     current_time_label.config(text = "Current Time: " + time.strftime("%I:%M:%S", time.localtime()))
     window.after(1000, update_clock)
+    
 
-def countdown(count=120):
+def countdown_initialize(count=120):
     mins, secs = divmod(count, 60)
     time_format = "{:02d}:{:02d}".format(mins, secs)         
     text=f"Timer: {time_format}"
     timer_label.config(text=text)
+    print("count me daddy")
 
-    if count > 0:
-        window.after(1000, countdown, count-1)
-
+def countdown(_=None):
+    print("RUNNINGIANGINSIGN")
+    count=120
+    while (count > 0):
+        time.sleep(1)
+        mins, secs = divmod(count, 60)
+        time_format = "{:02d}:{:02d}".format(mins, secs)         
+        text=f"Timer: {time_format}"
+        timer_label.config(text=text)
+        count -= 1
+    if count == 0:
+        count = 120
+    countdown_initialize(count)
+0
 img = PhotoImage(file = "COES.gif")
 
 
 GUI_data = [
 {"row": 0, "rowspan": 1, "col": 0, "colspan": 6, "value": f"Word of the Day: {dayWord['word']}"},
-{"row": 1, "rowspan": 2, "col": 0, "colspan": 6, "value": f"Definition: {dayWord['partOfSpeech']}, {dayWord['definitions']}"},
+{"row": 1, "rowspan": 1, "col": 0, "colspan": 6, "value": f"Definition: {dayWord['partOfSpeech']}, {dayWord['definitions']}"},
 ]
 
 GUI_data2 = [
@@ -58,7 +77,7 @@ class MainGUI(Frame):
 
     def make_GUI_item(self, row, rowspan, col, colspan, value):
 
-        GUI_item = Label(self, text=value, anchor=W, bg="#5865F2", fg="white", height=1, font=("Times New Roman", 15))
+        GUI_item = Label(self, text=value, anchor=W, bg="#5865F2", fg="white", height=1, font=("Times New Roman", 15), wraplength = 775, justify="left")
 
         GUI_item.grid(row=row, rowspan=rowspan, column=col, columnspan=colspan, sticky=NSEW)
 
@@ -90,6 +109,8 @@ gui = MainGUI(window)
 window.title("The Clean Caddy")
 current_time_label = Label(window, text = '', anchor=SE, bg ="#5865F2", fg="white", height=1, font=("Times New Roman", 20))
 current_time_label.pack(fill=BOTH, expand=0)
+window.after(0, setupGPIO)
 window.after(0, update_clock)
-window.after(0, countdown)
+window.after(0, countdown_initialize)
 window.mainloop()
+ 
