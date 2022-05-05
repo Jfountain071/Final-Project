@@ -21,7 +21,6 @@ void setup() {
   pinMode(in2, OUTPUT);
   pinMode(13, INPUT);
   pinMode(4, OUTPUT);
-
   digitalWrite(in1, LOW);
   digitalWrite(in2, LOW);
 }
